@@ -2,7 +2,9 @@ pipeline {
 	agent none
 	stages {
 		stage('Integration UI Test') {
+			// Runs 2 stages in parallel
 			parallel {
+				// Deploy the PHP server 
 				stage('Deploy') {
 					agent any
 					steps {
@@ -14,6 +16,7 @@ pipeline {
 						sh './jenkins/scripts/kill.sh'
 					}
 				}
+				// Perform integration and UI test when the server is running
 				stage('Headless Browser Test') {
 					agent {
 						docker {
